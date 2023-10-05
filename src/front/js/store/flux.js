@@ -23,7 +23,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				console.log("Application just loaded, syncing session storage token");
 				if (token && token !== "" && token !== undefined) setStore({ token: token });
 			},
-
+			//Change url
 			userSignup: async(email, password) => {
 				const resp = await("https://curly-adventure-w6qw7g9w45pc5w94-3001.app.github.dev/signup", "POST", {email, password})
 				if(resp.code >= 400) {
@@ -51,7 +51,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						"password": password,
 					}),
 				};
-
+					//Change Url
 				try {
 					const resp = await fetch("https://curly-adventure-w6qw7g9w45pc5w94-3001.app.github.dev/api/token", opts);
 					if(resp.status !== 200) {
