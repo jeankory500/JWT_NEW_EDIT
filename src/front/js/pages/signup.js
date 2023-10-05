@@ -12,7 +12,7 @@ export const Signup = () => {
         e.preventDefault();  // Prevent default form submission
 
         try {
-            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/signup`, {  // Ensure proper environment variable naming and URL formatting
+            const response = await fetch(`${process.env.BACKEND_URL}/api/signup`, {  // Ensure proper environment variable naming and URL formatting
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -21,7 +21,7 @@ export const Signup = () => {
             });
 
             if (response.status === 201) {
-                navigate("/login");
+                navigate("/");
             } else {
                 console.error("Registration failed");
             }
