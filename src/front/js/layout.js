@@ -7,6 +7,9 @@ import { Home } from "./pages/home";
 import { Demo } from "./pages/demo";
 import { Single } from "./pages/single";
 import injectContext from "./store/appContext";
+import  Login  from "./pages/login.js";
+import  PrivatePage  from "./pages/private.jsx";
+import { Signup } from "./pages/signup.js";
 
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
@@ -25,9 +28,9 @@ const Layout = () => {
                 <ScrollToTop>
                     <Navbar />
                     <Routes>
-                        <Route element={<Home />} path="/" />
-                        <Route element={<Demo />} path="/demo" />
-                        <Route element={<Single />} path="/single/:theid" />
+                        <Route element={<Login />} path="/" />
+                        <Route element={<Signup />} path="/signup" />
+                        <Route element={<PrivatePage />} path="private" />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />
