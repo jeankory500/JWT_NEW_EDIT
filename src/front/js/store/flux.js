@@ -1,6 +1,7 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
+			user: null,
 			token: null,
 			message: null,
 			demo: [
@@ -23,29 +24,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 				if (token && token !== "" && token !== undefined) setStore({ token: token });
 			},
 
-			signup: async (email, password) => {
-				const opts = {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					body: JSON.stringify({
-						email: email,
-						password: password,
-					}),
-				};
-				
-				try {
-					const resp = await fetch(`${[YOUR_BACKEND_URL]}/api/signup`, opts);
-					if (resp.status === 201) {
-						console.log("Signup successful!");
-					} else {
-						console.error("Signup failed");
-					}
-				} catch (error) {
-					console.error("Error during signup", error);
+			userSignup: async(email, password) => {
+				const resp = await("https://curly-adventure-w6qw7g9w45pc5w94-3001.app.github.dev/signup", "POST", {email, password})
+				if(resp.code >= 400) {
+					return resp
 				}
-			},  
+				//setStore({accessToken: resp.data.accessToken})
+				localStorage.setItem("accessToken", resp.data.accessToken)
+				return resp
+			},
 
 			logout: () => {
 				sessionStorage.removeItem("token");
@@ -66,7 +53,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				};
 
 				try {
-					const resp = await fetch("https://obscure-robot-x6gjwv9jxq926xrr-3001.app.github.dev/api/token", opts);
+					const resp = await fetch("https://curly-adventure-w6qw7g9w45pc5w94-3001.app.github.dev/api/token", opts);
 					if(resp.status !== 200) {
 						alert("There was an error");
 						return false;
@@ -81,16 +68,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			getMessage: async () => {
-				try{
-					const resp = await fetch(`$https://obscure-robot-x6gjwv9jxq926xrr-3001.app.github.dev/api/hello`);
-					const data = await resp.json();
-					setStore({ message: data.message });
-					return data;
-				} catch(error) {
-					console.error("Error loading message from backend", error);
-				}
-			},
+			
+
+			
+		}
+	};
+};
+
+export default getState;
+
 
 			
 		}
