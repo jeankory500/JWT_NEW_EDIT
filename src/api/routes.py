@@ -9,6 +9,7 @@ from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 
 
+
 api = Blueprint('api', __name__)
 
 
@@ -36,23 +37,24 @@ def private_route():
 
     return jsonify(response), 200
 
+
 @api.route('/signup', methods=['POST'])
-def signup():
-    data = request.json
+def create_account():
+    request_body = request.get_json()
+    email = request_body.get('email')
+    password = request_body.get('password')
 
-    # Check if the email already exists in the database
-    existing_user = User.query.filter_by(email=data['email']).first()
-    if existing_user:
-        return jsonify({"message": "Email already registered"}), 400
+    if not request_body["email"]:
+        return jsonify({"msg": "Email is required"}), 400
+    if not request_body["password"]:
+        return jsonify({"msg": "Password is required"}), 400
 
-    # Create a new user
-    new_user = User(
-        email=data['email'],
-        password=data['password'],
-        is_active=True,
-    )
+    user = User.query.filter_by(email=email).first()
+    if user is not None:
+        return jsonify({'message': 'User already exists'}), 400
+
+    new_user = User(email=email, password=password, is_active=True)
     db.session.add(new_user)
     db.session.commit()
-
-    return jsonify({"message": "User registered successfully"}), 201
+    return jsonify(new_user.serialize()), 201
 
